@@ -1,0 +1,22 @@
+#editor {
+    width: 50%;
+    height: 300px;
+}
+
+.instructions {
+    width: 20%;
+    height: 500px;
+    float: right;
+    position: absolute;
+    top: 0;
+    right: 100px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+}
+
+.score {
+    font-size: large;
+    font-weight: bold;
+}
