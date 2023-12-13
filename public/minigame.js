@@ -3,23 +3,23 @@ const canvas = document.createElement("canvas");
 var minigameCanvas = document.getElementById("minigame");
 minigameCanvas.appendChild(canvas);
 const ctx = canvas.getContext("2d");
-canvas.width = 350;
-canvas.height = 400;
+canvas.width = 270;
+canvas.height = 310;
 
 // Player and Monster properties
 let player = {
   x: 60,
   y: canvas.height - 80,
-  size: 50,
+  size: 25,
   color: "pink",
   health: 50,
   projectiles: [],
 };
 
 let monster = {
-  x: canvas.width-70,
+  x: canvas.width - 70,
   y: 80,
-  size: 60,
+  size: 50,
   color: "black",
   health: 100,
   projectiles: [],
@@ -143,7 +143,7 @@ function update() {
   drawHealthBarWithLabel(player.x + player.size + 10, player.y - 30, 200, 30, player.health, 100, "green", "Player");
 
   drawCircle(monster.x, monster.y, monster.size, monster.color);
-  drawHealthBarWithLabel(monster.x - 300, monster.y - 30, 200, 30, monster.health, 100, "red", "Monster");
+  drawHealthBarWithLabel(monster.x - 180, monster.y - 50, 200, 30, monster.health, 100, "red", "Monster");
 
   drawComboCounter(canvas.width - 150, canvas.height - 30, comboCounter);
 

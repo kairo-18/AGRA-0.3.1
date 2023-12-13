@@ -245,7 +245,7 @@ function startIntervalTimer() {
     let time1 = 10;
     const timer1 = setInterval(function () {
         time1--;
-        document.getElementById("timer").innerHTML = "Time:" + time1;
+        document.getElementById("timer").innerHTML = time1;
         if (time1 === 0) {
             clearInterval(timer1);
             console.log("Time's up!");
@@ -257,7 +257,7 @@ function startIntervalTimer() {
 
         let time = 10;
         const timer2 = setInterval(function () {
-            document.getElementById("timer").innerHTML = "Time:" + time;
+            document.getElementById("timer").innerHTML = time;
             time--;
             if (time === 1) {
                 clearInterval(timer2);
@@ -266,7 +266,7 @@ function startIntervalTimer() {
 
         rounds--;
         console.log(rounds);
-        checkCode();
+        monsterAttack();
 
         if (rounds === 0) {
             clearInterval(timer);
@@ -283,4 +283,6 @@ function startIntervalTimer() {
 function displayOutput(output) {
     document.getElementById("output-text").innerHTML = output;
 }
+
+startIntervalTimer();
 
