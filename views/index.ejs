@@ -28,18 +28,10 @@
             </div>
             <div class="Score">Score <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: 55px;" id="score">0</span></div>
             <div class="Timer">Timer<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: 55px;" id="timer">0</span></div>
+            <div class="button"><img id="btn" src="FrmeInstrucctions(1).png" onclick="runClick();"></div>
         </div>
 
-        <div class="mini-game">
-            <div class="enemy-health-bar"></div>
-            <div class="enemy-place-holder"></div>
-
-            <div class="player-health-bar"></div>
-            <div class="player-place-holder"></div>
-            
-            <div class="player-todo">
-                <img src="FrmeInstrucctions(1).png" onclick="runClick();">
-            </div>
+        <div class="mini-game" id="minigame">
         </div>
 
         <div class="code-container" >
@@ -51,6 +43,9 @@
 
     </div>
 
+
+    <script src="minigame.js"></script>
+    <script src="p5.js"></script>
     <script src="ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
     <script src="index.js"></script>
     

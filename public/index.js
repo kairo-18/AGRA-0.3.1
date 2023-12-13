@@ -48,6 +48,7 @@ var checkmark4 = {
 
 function pushCheckmarks(checkmark) {
     checkmarks.push(checkmark);
+    monster.health = checkmarks.length * 10;
 }
 
 function populateCheckmarks() {
@@ -73,7 +74,6 @@ function checkCheckmarks() {
         } else {
             document.getElementById("instruction" + (index + 1)).style.backgroundColor = "#ff0101";
         }
-
         index++;
     });
 }
@@ -190,6 +190,18 @@ function checkCodeByLine(editorLines) {
     updateScore();
 }
 
+var tempCtr = 0;
+function whenPlayerAttack(){
+
+    if(tempCtr < checkmarks.length){
+        if(checkmarks[tempCtr].done){
+            playerAttack();
+            tempCtr++;
+        }
+    }
+}
+
+
 editor.session.on('change', function (delta) {
     //setEditorCode();
     //checkCode();
@@ -199,6 +211,7 @@ editor.session.on('change', function (delta) {
 
     console.log(editorLines);
     checkCodeByLine(editorLines);
+    whenPlayerAttack();
 });
 
 function runClick() {
