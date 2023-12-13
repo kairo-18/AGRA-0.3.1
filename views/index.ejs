@@ -7,25 +7,16 @@
 </head>
 
 <body>
-
-
-    <form action="/getinput" method="POST">
         <div id="editor"><%= input || '' %></div>
 
-        <input type="hidden" name="code" id="code" />
-        <input type="submit" value="Submit" onclick="getEditorCode();" />
-    </form>
-
-    <form action="/output" action="GET">
-        <input type="submit" value="Output" />
-    </form>
+        <input name="run" type="submit" value="Run" onclick="runClick()"/>
 
     <div class="instructions">
         <h1>OUTPUT</h1>
         <span id="score" class="score">Score: 0</span>
         <span id="timer" class="timer">Time: 10</span>
-        <div class="codearea">
-            Output: <%= output %>
+        <div class="output" id="output">
+            
         </div>
     </div>
 

@@ -20,7 +20,8 @@ var program = {
 app.set('view engine', 'ejs');
 
 app.use(express.static('public'));
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
     res.render('index', { output: "None", input: code });
@@ -32,7 +33,7 @@ app.get('/output', (req, res) => {
             console.log(program);
             console.log(response.data);
             output = response.data.output;
-            res.render('index', { output: output, input: code });
+            res.send(output);
         })
         .catch(function (error) {
             console.log(error);

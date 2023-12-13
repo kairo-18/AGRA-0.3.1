@@ -16,12 +16,28 @@ var checkmark2 = {
     done: false
 }
 
+var checkmark3 = {
+    instruction: "Create an int variable called 'sum' with the value first + second",
+    answer: "int sum = first + second;",
+    done: false
+}
+
+var checkmark4 = {
+    instruction: "Display the sum using println with this text 'first + second = sum",
+    answer: `System.out.println(first + " + " + second + " = " + sum);`,
+    done: false
+}
+
 function pushCheckmarks(checkmark) {
     checkmarks.push(checkmark);
 }
 
 pushCheckmarks(checkmark1);
 pushCheckmarks(checkmark2);
+pushCheckmarks(checkmark3);
+pushCheckmarks(checkmark4);
+
+console.log(checkmarks);
 
 let score = 0;
 
@@ -66,7 +82,7 @@ function uniq(a) {
 
 
 
-function checkCode() {
+function checkCodeByWord() {
     var input = editor.getValue();
     var inputWords = input.split(/[.\s(){}'""\[\]`]+/).filter((word) => word.trim() !== "");
 
@@ -74,7 +90,7 @@ function checkCode() {
     inputWords.forEach(word => {
         if (keywords.includes(word)) {
             score++;
-            document.getElementById("score").innerHTML = "Score:" + score;
+            updateScore();
 
             let wordIndex = keywords.indexOf(word);
             keywords.splice(wordIndex, 1); // Delete the matched keyword
@@ -82,9 +98,59 @@ function checkCode() {
     });
 }
 
+function updateScore() {
+    document.getElementById("score").innerHTML = "Score:" + score;
+}
+
+var currentCheckmark = 0;
+
+function checkCodeByLine(editorLines) {
+    if(!(currentCheckmark >= checkmarks.length)){
+        editorLines.forEach(line => {
+            if(line.includes(checkmarks[currentCheckmark].answer)){
+                checkmarks[currentCheckmark].done = true;
+                currentCheckmark++;
+                score++;
+                updateScore();  
+            }
+        });
+    }
+}
+
 editor.session.on('change', function (delta) {
-    checkCode();
+    //setEditorCode();
+    //checkCode();
+    var editorValue = editor.getValue();
+    var editorLines = editorValue.split("\n");
+
+    checkCodeByLine(editorLines);
 });
+
+function runClick() {
+
+    const req1 = new window.XMLHttpRequest();
+
+    var input = {
+        code:editor.getValue()
+    }
+
+    req1.open("POST", "/getinput", true); 
+    req1.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+
+    req1.send(JSON.stringify(input));
+
+    
+    setTimeout(function () {
+        const req = new XMLHttpRequest();
+
+        req.open('GET', '/output', true);
+        req.addEventListener('load', function () {
+            var output = req.responseText;
+            displayOutput(output);
+        });
+        req.send();
+    }, 100);
+}
 
 
 
@@ -128,9 +194,12 @@ function startIntervalTimer() {
 
 }
 
-function getEditorCode() {
+function setEditorCode() {
     document.getElementById("code").value = editor.getValue();
-    console.log(document.getElementById("code").value);
+}
+
+function displayOutput(output){
+    document.getElementById("output").innerHTML = output;
 }
 
 
