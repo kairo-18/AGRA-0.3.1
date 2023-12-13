@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>ACE in Action</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+        <div id="code-editor"><%= input || '' %></div>
+
+        <input name="run" type="submit" value="Run" onclick="runClick()"/>
+
+    <div class="instructions">
+        <h1>OUTPUT</h1>
+        <span id="score" class="score">Score: 0</span>
+        <span id="timer" class="timer">Time: 10</span>
+        <div class="output" id="output">
+            
+        </div>
+    </div>
+
+    <script src="ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="index.js"></script>
+</body>
+
+</html>

@@ -1,27 +1,59 @@
-<!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <title>ACE in Action</title>
-    <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>AGRA</title>
 </head>
-
 <body>
-        <div id="editor"><%= input || '' %></div>
+    <div class="container">
 
-        <input name="run" type="submit" value="Run" onclick="runClick()"/>
-
-    <div class="instructions">
-        <h1>OUTPUT</h1>
-        <span id="score" class="score">Score: 0</span>
-        <span id="timer" class="timer">Time: 10</span>
-        <div class="output" id="output">
-            
+        <div class="header">
+                <img src="ImgLogo.png" alt="logo" class="logo">
+                <div class="home"><a href="#">Home</a></div>
+                <div class="account"><a href="#">Account</a></div>
+                <div class="courses"><a href="#">Courses</a></div>
+                <div class="exercises"><a href="#">Exercises</a></div>
+                <img src="Notification.png" alt="notif" class="notif">
         </div>
+
+        <div class="instructions">
+            <div class="instrucName">Instructions</div>
+            <div class="instruc-container"></div>
+        </div>
+
+        <div class="stu-progress">
+            <div class="progName">Progress Bar</div>
+            <div class="prog-bar">
+                <div class="color-prog-bar"></div>
+            </div>
+            <div class="Score">Score <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: 55px;" id="score">0</span></div>
+            <div class="Timer">Timer<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: 55px;" id="timer">0</span></div>
+        </div>
+
+        <div class="mini-game">
+            <div class="enemy-health-bar"></div>
+            <div class="enemy-place-holder"></div>
+
+            <div class="player-health-bar"></div>
+            <div class="player-place-holder"></div>
+            
+            <div class="player-todo">
+                <img src="FrmeInstrucctions(1).png" onclick="runClick();">
+            </div>
+        </div>
+
+        <div class="code-container" >
+            <div class="code-editor" id="code-editor"><%= input || '' %></div></div>
+        <div class="output">
+            <br>
+            <span id="output-text">asdfasdf</span>
+        </div>
+
     </div>
 
     <script src="ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
     <script src="index.js"></script>
+    
 </body>
-
 </html>

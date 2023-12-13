@@ -1,6 +1,20 @@
-var editor = ace.edit("editor");
-editor.setTheme("ace/theme/monokai");
+var editor = ace.edit("code-editor");
+editor.setTheme("ace/theme/one_dark");
 editor.session.setMode("ace/mode/java");
+editor.setShowPrintMargin(false);
+editor.setAutoScrollEditorIntoView(true);
+editor.resize();
+editor.setOptions({
+    fontSize: "20px"
+  });
+
+editor.insert(`public class myClass{
+    public static void main(String[] args){
+        
+    }
+}`);
+
+editor.moveCursorTo(2, 8)
 
 let checkmarks = [];
 
@@ -99,7 +113,7 @@ function checkCodeByWord() {
 }
 
 function updateScore() {
-    document.getElementById("score").innerHTML = "Score:" + score;
+    document.getElementById("score").innerHTML =  score;
 }
 
 var currentCheckmark = 0;
@@ -140,7 +154,7 @@ function runClick() {
     req1.send(JSON.stringify(input));
 
     
-    setTimeout(function () {
+
         const req = new XMLHttpRequest();
 
         req.open('GET', '/output', true);
@@ -149,9 +163,7 @@ function runClick() {
             displayOutput(output);
         });
         req.send();
-    }, 100);
 }
-
 
 
 function startIntervalTimer() {
@@ -194,12 +206,7 @@ function startIntervalTimer() {
 
 }
 
-function setEditorCode() {
-    document.getElementById("code").value = editor.getValue();
-}
-
 function displayOutput(output){
-    document.getElementById("output").innerHTML = output;
+    document.getElementById("output-text").innerHTML = output;
 }
-
 
