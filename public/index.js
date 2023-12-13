@@ -6,7 +6,7 @@ editor.setAutoScrollEditorIntoView(true);
 editor.resize();
 editor.setOptions({
     fontSize: "20px"
-  });
+});
 
 editor.insert(`public class myClass{
     public static void main(String[] args){
@@ -21,39 +21,72 @@ let checkmarks = [];
 var checkmark1 = {
     instruction: "Create a variable called 'first' and assign it to 10",
     answer: "int first = 10;",
-    done: false
+    done: false,
+    id: 1
 }
 
 var checkmark2 = {
     instruction: "Create a variable called 'second' and assign it to 20",
     answer: "int second = 20;",
-    done: false
+    done: false,
+    id: 2
 }
 
 var checkmark3 = {
     instruction: "Create an int variable called 'sum' with the value first + second",
     answer: "int sum = first + second;",
-    done: false
+    done: false,
+    id: 3
 }
 
 var checkmark4 = {
     instruction: "Display the sum using println with this text 'first + second = sum",
     answer: `System.out.println(first + " + " + second + " = " + sum);`,
-    done: false
+    done: false,
+    id: 4
 }
 
 function pushCheckmarks(checkmark) {
     checkmarks.push(checkmark);
 }
 
+function populateCheckmarks() {
+    checkmarks.forEach(checkmark => {
+        var checkmarkDiv = document.createElement("div");
+        checkmarkDiv.classList.add("instruc-container");
+        checkmarkDiv.id = "instruction" + checkmark.id;
+        checkmarkDiv.innerHTML = checkmark.instruction;
+        checkmarkDiv.style.backgroundColor = "#ff0101";
+
+        var parentDiv = document.getElementById("instructions");
+        parentDiv.appendChild(checkmarkDiv);
+
+        parentDiv.style.gridTemplateRows = "30px repeat(" + checkmarks.length + ", 1fr)";
+    });
+}
+
+function checkCheckmarks() {
+    var index = 0;
+    checkmarks.forEach(checkmark => {
+        if (checkmark.done) {
+            document.getElementById("instruction" + (index + 1)).style.backgroundColor = "#0aa605";
+        } else {
+            document.getElementById("instruction" + (index + 1)).style.backgroundColor = "#ff0101";
+        }
+
+        index++;
+    });
+}
+
+
 pushCheckmarks(checkmark1);
 pushCheckmarks(checkmark2);
 pushCheckmarks(checkmark3);
 pushCheckmarks(checkmark4);
 
-console.log(checkmarks);
 
-let score = 0;
+populateCheckmarks();
+console.log(checkmarks);
 
 var code = `public class Main {
 
@@ -113,22 +146,48 @@ function checkCodeByWord() {
 }
 
 function updateScore() {
-    document.getElementById("score").innerHTML =  score;
+    var score = 0;
+    checkmarks.forEach(checkmark => {
+        if (checkmark.done) {
+            score++;
+        }
+    });
+    document.getElementById("score").innerHTML = score;
 }
 
-var currentCheckmark = 0;
 
 function checkCodeByLine(editorLines) {
-    if(!(currentCheckmark >= checkmarks.length)){
+    var currentCheckmark = 0;
+
+    if (!(currentCheckmark === checkmarks.length)) {
+
         editorLines.forEach(line => {
-            if(line.includes(checkmarks[currentCheckmark].answer)){
-                checkmarks[currentCheckmark].done = true;
-                currentCheckmark++;
-                score++;
-                updateScore();  
+            if (currentCheckmark < checkmarks.length) {
+                if (line.includes(checkmarks[currentCheckmark].answer)) {
+                    checkmarks[currentCheckmark].done = true;
+                    checkCheckmarks();
+                    console.log(checkmarks.length);
+                    console.log(currentCheckmark);
+                    currentCheckmark++;
+                }
+
             }
         });
+
     }
+
+    editorLines.forEach(line => {
+        if (currentCheckmark < checkmarks.length) {
+            if (!(line.includes(checkmarks[currentCheckmark].answer))) {
+                checkmarks[currentCheckmark].done = false;
+                checkCheckmarks();
+            }
+
+        }
+
+    });
+
+    updateScore();
 }
 
 editor.session.on('change', function (delta) {
@@ -137,6 +196,8 @@ editor.session.on('change', function (delta) {
     var editorValue = editor.getValue();
     var editorLines = editorValue.split("\n");
 
+
+    console.log(editorLines);
     checkCodeByLine(editorLines);
 });
 
@@ -145,24 +206,24 @@ function runClick() {
     const req1 = new window.XMLHttpRequest();
 
     var input = {
-        code:editor.getValue()
+        code: editor.getValue()
     }
 
-    req1.open("POST", "/getinput", true); 
+    req1.open("POST", "/getinput", true);
     req1.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
 
     req1.send(JSON.stringify(input));
 
-    
 
-        const req = new XMLHttpRequest();
 
-        req.open('GET', '/output', true);
-        req.addEventListener('load', function () {
-            var output = req.responseText;
-            displayOutput(output);
-        });
-        req.send();
+    const req = new XMLHttpRequest();
+
+    req.open('GET', '/output', true);
+    req.addEventListener('load', function () {
+        var output = req.responseText;
+        displayOutput(output);
+    });
+    req.send();
 }
 
 
@@ -206,7 +267,7 @@ function startIntervalTimer() {
 
 }
 
-function displayOutput(output){
+function displayOutput(output) {
     document.getElementById("output-text").innerHTML = output;
 }
 
