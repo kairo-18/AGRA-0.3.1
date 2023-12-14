@@ -31,6 +31,31 @@ body{
     grid-template-columns: repeat(20, 1fr);
     
 }
+
+#tutorialPanel{
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    top:50;
+    text-align: center;
+}
+
+#tutorialPanel img{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.header img:last-child{
+    width: 50%;
+    height: 50%;
+}
+
+.header img:hover{
+    opacity: 85%;
+    cursor: pointer;
+}
+
+
 a{
     color: white;
     font-weight: 300;
