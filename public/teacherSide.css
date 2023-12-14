@@ -1,0 +1,100 @@
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+  width: 100%;
+}
+
+body {
+  width: calc(100vw - var(--scrollbar-width));
+  padding: 0;
+  margin: 0;
+}
+
+.form-column{
+  width: 100%;
+}
+
+input{
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.parentDiv{
+  height: 100%;
+  padding: 10px;
+}
+
+.col2Div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid black;
+  padding: 5px;
+  height: 96vh; overflow: hidden;
+}
+
+.__2-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 10px;
+}
+
+.fixedContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: calc(100vh - 20px);
+  width: var(--col1-width);
+  margin: 10px;
+  z-index: 1;
+}
+
+.fixedGridContainer {
+  display: grid;
+  grid-template-rows: 60% 5% 15% 15%;
+  row-gap: 10px;
+  height: 100%;
+}
+
+
+.col1row2 {
+
+}
+
+.col1row3 {
+  background-color: black;
+  color: white;
+  font-size: 20px;
+  border-radius: 20px;
+}
+
+.col1row4 {
+  color: white;
+  font-size: 20px;
+  background-color: black;
+  border-radius: 20px;
+  padding: 10px;
+}
+
+#run{
+  height: 100%;
+}
+
+.addButton{
+  width: 25px;
+  height: 25px;
+  margin-top: 10px;
+  border-radius: 50%;
+  border: 1px solid #000;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+.buttonDiv{
+  display: inline-block;
+  margin-left: 3%;
+  margin-top: -1vh;
+}

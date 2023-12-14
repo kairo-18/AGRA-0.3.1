@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teacher Add Form</title>
+  
+  <link rel="stylesheet" href="teacherSide.css">
+
+</head>
+<body>
+  <div class="parentDiv __2-grid">
+    
+    <div id="col1Div"  class="col1Div">
+    </div>
+
+    <div class="col2Div">
+      <h2>Instruction-Code Addition</h2>
+
+        <div class="form-row __2-grid">
+          <div class="form-column">
+            <h3>Instruction</h3>
+            <div id="instruction"></div>
+          </div>
+          <div class="form-column">
+            <h3>Code</h3>
+            <div id="code"></div>
+          </div>
+        </div>
+
+        <button id="submit" class="submitButton" onclick="submitCheckmarks();">Submit</button>
+
+      <button onclick="addFields();" class="addButton">+</button> 
+    </div>
+  </div>
+  <div class="fixedContainer">
+    <div class="fixedGridContainer">
+        <div class="editor" id="editor"></div>
+      <div class="col1row2">
+        <button type="button" id="run" onclick="runClick();">Run</button>
+      </div>
+      <textarea id="stdin" class="col1row3"></textarea>
+      <div id="output-text" class="col1row4"></div>
+    </div>
+  </div>
+
+  <script src="ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+  <script src="script.js"></script>
+</body>
+</html>

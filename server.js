@@ -27,6 +27,14 @@ app.get('/', (req, res) => {
     res.render('index', { output: "None", input: code });
 });
 
+app.get('/getCheckmarks', (req, res) => {
+    res.send(checkmarks);
+});
+
+app.get('/teacherForm', (req, res) => {
+    res.render('teacherForm');
+});
+
 app.get('/output', (req, res) => {
     axios.post('https://api.jdoodle.com/v1/execute', program)
         .then(function (response) {
@@ -40,10 +48,22 @@ app.get('/output', (req, res) => {
         });
 });
 
+
+
 app.post('/getinput', (req, res) => {
     console.log(req.body.code);
     code = req.body.code;
     program.script = code;
+
+    if(req.body.stdin != null){
+        program.stdin = req.body.stdin;
+    }
 });
+
+var checkmarks;
+app.post('/teacherSubmitForm', (req, res) => {
+    checkmarks = req.body;
+    console.log(checkmarks); 
+})
 
 app.listen(3000);

@@ -1,3 +1,21 @@
+var checkmarks = [];
+function getCheckmarksData(){
+    const req = new XMLHttpRequest();
+
+    req.open('GET', '/getCheckmarks', true);
+    req.addEventListener('load', function () {
+        var tmpCheckmarks = req.responseText;
+        checkmarks = JSON.parse(tmpCheckmarks);
+        console.log(checkmarks);
+        populateCheckmarks();
+        monster.health = checkmarks.length * 10;
+    });
+    req.send(); 
+
+}
+
+getCheckmarksData();
+
 var editor = ace.edit("code-editor");
 editor.setTheme("ace/theme/one_dark");
 editor.session.setMode("ace/mode/java");
@@ -16,40 +34,6 @@ editor.insert(`public class myClass{
 
 editor.moveCursorTo(2, 8)
 
-let checkmarks = [];
-
-var checkmark1 = {
-    instruction: "Create a variable called 'first' and assign it to 10",
-    answer: "int first = 10;",
-    done: false,
-    id: 1
-}
-
-var checkmark2 = {
-    instruction: "Create a variable called 'second' and assign it to 20",
-    answer: "int second = 20;",
-    done: false,
-    id: 2
-}
-
-var checkmark3 = {
-    instruction: "Create an int variable called 'sum' with the value first + second",
-    answer: "int sum = first + second;",
-    done: false,
-    id: 3
-}
-
-var checkmark4 = {
-    instruction: "Display the sum using println with this text 'first + second = sum",
-    answer: `System.out.println(first + " + " + second + " = " + sum);`,
-    done: false,
-    id: 4
-}
-
-function pushCheckmarks(checkmark) {
-    checkmarks.push(checkmark);
-    monster.health = checkmarks.length * 10;
-}
 
 function populateCheckmarks() {
     checkmarks.forEach(checkmark => {
@@ -70,23 +54,14 @@ function checkCheckmarks() {
     var index = 0;
     checkmarks.forEach(checkmark => {
         if (checkmark.done) {
-            document.getElementById("instruction" + (index + 1)).style.backgroundColor = "#0aa605";
+            document.getElementById("instruction" + index).style.backgroundColor = "#0aa605";
         } else {
-            document.getElementById("instruction" + (index + 1)).style.backgroundColor = "#ff0101";
+            document.getElementById("instruction" + index).style.backgroundColor = "#ff0101";
         }
         index++;
     });
 }
 
-
-pushCheckmarks(checkmark1);
-pushCheckmarks(checkmark2);
-pushCheckmarks(checkmark3);
-pushCheckmarks(checkmark4);
-
-
-populateCheckmarks();
-console.log(checkmarks);
 
 var code = `public class Main {
 
@@ -281,7 +256,9 @@ function startIntervalTimer() {
 }
 
 function displayOutput(output) {
-    document.getElementById("output-text").innerHTML = output;
+    //replace \n with <br>
+    output = output.replace(/\n/g, "<br>");
+    document.getElementById("output").innerHTML = output;
 }
 
 startIntervalTimer();
