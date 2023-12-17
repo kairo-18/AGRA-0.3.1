@@ -1,16 +1,17 @@
 // Set up canvas
 const canvas = document.createElement("canvas");
 var minigameCanvas = document.getElementById("minigame");
+canvas.width = 350;
+canvas.height = 400;
 minigameCanvas.appendChild(canvas);
 const ctx = canvas.getContext("2d");
-canvas.width = 270;
-canvas.height = 310;
+
 
 // Player and Monster properties
 let player = {
-  x: 60,
-  y: canvas.height - 80,
-  size: 25,
+  x: 80,
+  y: canvas.height - 100,
+  size: 30,
   color: "pink",
   health: 50,
   projectiles: [],
@@ -63,7 +64,7 @@ function drawComboCounter(x, y, combo) {
 // Function to draw projectiles
 function drawProjectiles(projectiles) {
   projectiles.forEach((projectile) => {
-    drawCircle(projectile.x, projectile.y, 5, "black");
+    drawCircle(projectile.x, projectile.y, 10, "black");
   });
 }
 
@@ -82,15 +83,30 @@ function checkCollisions(projectiles, target) {
     const distanceY = target.y + target.size / 2 - projectile.y;
     const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
 
-    if (distance < target.size / 2 + 5) {
+    if (distance-30 < target.size / 2) {
       // Collision detected, reduce target health and remove the projectile
       target.health -= 10; // Adjust damage as needed
 
+      if(target === player){
+        document.body.style.transition = "0.5s";
+        document.body.style.backgroundColor = "#ff0000";
+        setTimeout(function () { document.body.style.transition = "0.5s"; document.body.style.backgroundColor = "white"; }, 1000);
+        document.body.style.transition = "";
+      }else if(target === monster){
+        document.body.style.transition = "0.5s";
+        document.body.style.backgroundColor = "#AAFF00";
+        setTimeout(function () { document.body.style.transition = "0.5s"; document.body.style.backgroundColor = "white"; }, 1000);
+        document.body.style.transition = "";
+      }
       // Remove the projectile
       projectiles.splice(index, 1);
+
+      document.body.style.transition = "";
     }
   });
 }
+
+var gameEnded = false;
 // Function to check game state and display messages
 function checkGameState() {
   if (monster.health <= 0) {
@@ -98,12 +114,14 @@ function checkGameState() {
     var h1 = document.createElement("h1");
     h1.innerHTML = "You Win!";
     minigameCanvas.appendChild(h1);
+    gameEnded = true;
 
   } else if (player.health <= 0) {
     canvas.style.display = "none";
     var h1 = document.createElement("h1");
     h1.innerHTML = "You LOSE!";
     minigameCanvas.appendChild(h1);
+    gameEnded = true;
   }
 }
 
@@ -111,12 +129,11 @@ function checkGameState() {
 function playerAttack() {
   // Add projectile for player
   player.projectiles.push({
-    x: player.x + player.size - 100,
-    y: player.y + player.size / 2 + 10,
-    speed: 5, // Adjust the speed as needed
+    x: player.x + player.size - 50,
+    y: player.y + player.size + -10,
+    speed: 4, // Adjust the speed as needed
   });
 
-  monster.health -= 10;
   comboCounter += 1;
   checkGameState();
 }
@@ -126,10 +143,9 @@ function monsterAttack(){
   monster.projectiles.push({
     x: monster.x,
     y: monster.y + monster.size / 2,
-    speed: -5, // Adjust the speed as needed
+    speed: -4, // Adjust the speed as needed
   });
 
-  player.health -= 10;
   comboCounter = 0; // Reset combo on false button click
   checkGameState();
 }
@@ -147,14 +163,15 @@ function update() {
 
   drawComboCounter(canvas.width - 150, canvas.height - 30, comboCounter);
 
-  // Draw and move projectiles
-  drawProjectiles(player.projectiles);
-  drawProjectiles(monster.projectiles);
-  moveProjectiles(player.projectiles);
-  moveProjectiles(monster.projectiles);
+      // Draw and move projectiles
+      drawProjectiles(player.projectiles);
+      drawProjectiles(monster.projectiles);
+      moveProjectiles(player.projectiles);
+      moveProjectiles(monster.projectiles);
 
-  // Check for collisions between projectiles and targets
-  checkCollisions(player.projectiles, monster);
+      // Check for collisions between projectiles and targets
+      checkCollisions(player.projectiles, monster);
+      checkCollisions(monster.projectiles, player)
 
   // Request next frame
   requestAnimationFrame(update);

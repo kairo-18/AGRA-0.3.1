@@ -1,14 +1,57 @@
 var checkmarks = [];
+var progressIncrement;
+
 function getCheckmarksData(){
+    
     const req = new XMLHttpRequest();
 
     req.open('GET', '/getCheckmarks', true);
     req.addEventListener('load', function () {
-        var tmpCheckmarks = req.responseText;
-        checkmarks = JSON.parse(tmpCheckmarks);
+
+        try{
+            var tmpCheckmarks = req.responseText;
+            checkmarks = JSON.parse(tmpCheckmarks);
+        }catch(e){
+            console.log("Error: " + e);
+            checkmarks = [
+                {
+                    id: 0,
+                    instruction: "Create a variable called first of type int with the value of 10",
+                    answer: "int first = 10;",
+                    done: false
+                },
+                {
+                    id: 1,
+                    instruction: "Create a variable called second of type int with the value of 20",
+                    answer: "int second = 20;",
+                    done: false
+                },
+                {
+                    id: 2,
+                    instruction: "Create a variable called sum of type int",
+                    answer: "int sum = first + second;",
+                    done: false
+                },
+                {
+                    id: 3,
+                    instruction: "Print the sum of first and second",
+                    answer: "System.out.println(sum);",
+                    done: false
+                },
+                {
+                    id: 4,
+                    instruction: "Print the product of first and second",
+                    answer: "System.out.println(first * second);",
+                    done: false
+                }
+            ];
+        }
+
         console.log(checkmarks);
         populateCheckmarks();
+        progressIncrement = 9 / checkmarks.length;
         monster.health = checkmarks.length * 10;
+
     });
     req.send(); 
 
@@ -16,6 +59,7 @@ function getCheckmarksData(){
 
 getCheckmarksData();
 
+var progressBar = document.querySelector(".color-prog-bar");
 var editor = ace.edit("code-editor");
 editor.setTheme("ace/theme/one_dark");
 editor.session.setMode("ace/mode/java");
@@ -38,15 +82,40 @@ editor.moveCursorTo(2, 8)
 function populateCheckmarks() {
     checkmarks.forEach(checkmark => {
         var checkmarkDiv = document.createElement("div");
+        var imgDiv = document.createElement("div");
+        var checkmarkImg = document.createElement("img");
+
+
+        imgDiv.style.height = "100px";
+        imgDiv.style.width = "50px";
+        imgDiv.style.marginLeft = "10px";
+        imgDiv.style.borderLeft = "1px solid black";
+        imgDiv.style.display = "flex";
+
+        checkmarkImg.src = "remove.png";
+        checkmarkImg.style.width = "50px";
+        checkmarkImg.style.height = "50px";
+        checkmarkImg.style.margin = "auto 0 ";
+        checkmarkImg.id = "img" + checkmark.id;
+
+
         checkmarkDiv.classList.add("instruc-container");
         checkmarkDiv.id = "instruction" + checkmark.id;
-        checkmarkDiv.innerHTML = checkmark.instruction;
-        checkmarkDiv.style.backgroundColor = "#ff0101";
+        checkmarkDiv.textContent = checkmark.instruction;
+        checkmarkDiv.style.backgroundColor = "#F3F8FF";
+        checkmarkDiv.style.boxShadow = "0px 0px 10px 0px rgba(0,0,0,0.75)";
+        checkmarkDiv.style.borderRadius = "10px";
 
         var parentDiv = document.getElementById("instructions");
         parentDiv.appendChild(checkmarkDiv);
 
         parentDiv.style.gridTemplateRows = "30px repeat(" + checkmarks.length + ", 1fr)";
+
+        checkmarkDiv.style.display = "flex";
+        checkmarkDiv.style.alignItems = "center";
+        checkmarkDiv.style.justifyContent = "center";
+        imgDiv.appendChild(checkmarkImg);
+        checkmarkDiv.appendChild(imgDiv);
     });
 }
 
@@ -54,9 +123,9 @@ function checkCheckmarks() {
     var index = 0;
     checkmarks.forEach(checkmark => {
         if (checkmark.done) {
-            document.getElementById("instruction" + index).style.backgroundColor = "#0aa605";
+            document.getElementById("img" + index).src = "check-mark.png";
         } else {
-            document.getElementById("instruction" + index).style.backgroundColor = "#ff0101";
+            document.getElementById("img" + index).src = "remove.png"
         }
         index++;
     });
@@ -120,14 +189,34 @@ function checkCodeByWord() {
     });
 }
 
+let globalScore;
+
+
 function updateScore() {
     var score = 0;
+    var scorePercentage = 0;
+    
     checkmarks.forEach(checkmark => {
         if (checkmark.done) {
             score++;
+
         }
     });
-    document.getElementById("score").innerHTML = score;
+
+    scorePercentage = Math.floor((score / checkmarks.length) * 100);
+
+    globalScore = scorePercentage;
+    document.getElementById("score").innerHTML = scorePercentage + "%";
+
+
+    var value = Math.floor((progressIncrement * score) + 4);
+    progressBar.style.gridColumnEnd = value;
+    console.log("value" + value);
+    console.log("progress increment" + progressIncrement)
+    console.log("score" + score)
+    console.log("grid column end1 " + progressIncrement * score);
+    console.log("grid column end2 " + progressBar.style.gridColumnEnd);
+
 }
 
 
@@ -141,11 +230,10 @@ function checkCodeByLine(editorLines) {
                 if (line.includes(checkmarks[currentCheckmark].answer)) {
                     checkmarks[currentCheckmark].done = true;
                     checkCheckmarks();
-                    console.log(checkmarks.length);
+                    console.log(checkmarks);
                     console.log(currentCheckmark);
                     currentCheckmark++;
                 }
-
             }
         });
 
@@ -183,8 +271,6 @@ editor.session.on('change', function (delta) {
     var editorValue = editor.getValue();
     var editorLines = editorValue.split("\n");
 
-
-    console.log(editorLines);
     checkCodeByLine(editorLines);
     whenPlayerAttack();
 });
@@ -225,6 +311,11 @@ function startIntervalTimer() {
             clearInterval(timer1);
             console.log("Time's up!");
         }
+        if(globalScore === 100){
+            clearInterval(timer);
+            clearInterval(timer1);
+            document.getElementById("timer").innerHTML = "Done";
+        }
     }, 1000);
 
     let rounds = 5;
@@ -234,8 +325,14 @@ function startIntervalTimer() {
         const timer2 = setInterval(function () {
             document.getElementById("timer").innerHTML = time;
             time--;
-            if (time === 1) {
+            if (time === 0) {
                 clearInterval(timer2);
+            }
+            if(globalScore === 100){
+                clearInterval(timer);
+                clearInterval(timer1);
+                clearInterval(timer2);
+                document.getElementById("timer").innerHTML = "Done";
             }
         }, 1000);
 
@@ -249,8 +346,15 @@ function startIntervalTimer() {
             clearInterval(timer2);
             console.log("Done!");
             document.getElementById("timer").innerHTML = "Done";
+        } 
+
+        if(globalScore === 100){
+            clearInterval(timer);
+            clearInterval(timer1);
+            clearInterval(timer2);
+            document.getElementById("timer").innerHTML = "Done";
         }
-    }, 10000);
+    }, 11000);
 
 
 }
@@ -261,5 +365,16 @@ function displayOutput(output) {
     document.getElementById("output").innerHTML = output;
 }
 
-startIntervalTimer();
 
+var startButton = document.getElementById("startButton");
+
+document.querySelector(".container").style.pointerEvents = "none";
+document.querySelector(".container").style.filter = "blur(3px)";
+
+function startGame(){
+    startButton.style.display = "none";
+    document.getElementById("startPanel").style.display = "none";
+    document.querySelector(".container").style.pointerEvents = "auto";
+    document.querySelector(".container").style.filter = "blur(0px)";
+    startIntervalTimer();
+}

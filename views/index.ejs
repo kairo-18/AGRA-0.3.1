@@ -6,17 +6,16 @@
     <title>AGRA</title>
 </head>
 <body>
+    <div class="header">
+        <img src="ImgLogo.png" alt="logo" class="logo">
+        <div class="home"><a href="#">Home</a></div>
+        <div class="account"><a href="#">Account</a></div>
+        <div class="courses"><a href="#">Courses</a></div>
+        <div class="exercises"><a href="#">Exercises</a></div>
+        <img id="tutorial-btn" src="TutorialIcon.png" alt="notif" class="notif">
+    </div>
+
     <div class="container">
-
-        <div class="header">
-                <img src="ImgLogo.png" alt="logo" class="logo">
-                <div class="home"><a href="#">Home</a></div>
-                <div class="account"><a href="#">Account</a></div>
-                <div class="courses"><a href="#">Courses</a></div>
-                <div class="exercises"><a href="#">Exercises</a></div>
-                <img id="tutorial-btn" src="TutorialIcon.png" alt="notif" class="notif">
-        </div>
-
         <div class="instructions" id="instructions">
             <div class="instrucName">Instructions</div>
         </div>
@@ -26,8 +25,8 @@
             <div class="prog-bar">
                 <div class="color-prog-bar"></div>
             </div>
-            <div class="Score">Score <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: 55px;" id="score">0</span></div>
-            <div class="Timer">Timer<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: 55px;" id="timer">0</span></div>
+            <div class="Score">Score<span style="font-size: 55px;" id="score">0</span></div>
+            <div class="Timer">Timer<span style="font-size: 55px;" id="timer">0</span></div>
             <div class="button"><img id="btn" src="FrmeInstrucctions(1).png" onclick="runClick();"></div>
         </div>
 
@@ -43,6 +42,10 @@
     <div id="tutorial-container" class="tutorial-container">
 
     </div>
+
+    <div class="startPanel" id="startPanel">
+        <h2 id="startText">Press start when you are ready. (Press the tutorial in the top right corner for a walkthrough)</h2>
+        <button id="startButton" onclick="startGame()">Start</button>
     </div>
 
 

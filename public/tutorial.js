@@ -64,16 +64,18 @@ document.addEventListener("DOMContentLoaded", function() {
     button.addEventListener('click', function() {
         panel.style.display = 'block';
         showSlide(currentSlideIndex);
-        blurALl();
+        blurAll();
     });
 
     closeButton.addEventListener('click', function() {
         panel.style.display = 'none';
         unBlurAll();
+        document.body.style.transition = "";
+        window.location.reload();
     });
 });
 
-function blurALl(){
+function blurAll(){
     document.querySelector('body > *:not(#tutorialPanel)').style.filter = "blur(3px)"; 
 }
 

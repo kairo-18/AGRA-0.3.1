@@ -16,6 +16,12 @@ editor.insert(`public class myClass{
 
 editor.moveCursorTo(2, 8)
 
+const req1 = new window.XMLHttpRequest();
+    req1.open("POST", "/teacherSubmitForm", true);
+    req1.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+
+    req1.send();
+
 var incrementCount = 0;
 
 var insadd = document.getElementById("instruction");
@@ -95,10 +101,6 @@ document.addEventListener('DOMContentLoaded', _calculateCol1Width, false);
 window.addEventListener('load', _calculateCol1Width);
 
 function submitCheckmarks(){
-  
-  if(checkmarks != null){
-
-    console.log(checkmarks);
       const req1 = new window.XMLHttpRequest();
 
       req1.open("POST", "/teacherSubmitForm", true);
@@ -107,9 +109,6 @@ function submitCheckmarks(){
       req1.send(JSON.stringify(checkmarks));
       
       setTimeout(backToHome, 1000);
-  }
-
-
 }
 
 function backToHome(){

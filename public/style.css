@@ -7,10 +7,10 @@ body{
 }
 .container{
     width: 100vw;
-    height: 100vh;
+    height: 90vh;
     display: grid;
     grid-template-columns:  repeat(15, 1fr) ;
-    grid-template-rows: 116px repeat(5, 1fr) 5px;
+    grid-template-rows: 0 repeat(5, 1fr) 5px;
     gap: 20px;
     padding: 0px;
     box-sizing: border-box;
@@ -23,10 +23,10 @@ body{
 
 /*Nav bar*/
 .header{
-    grid-column-start: 1;
-    grid-column-end: 16;
     background-color: #6a2ee8;
     display: grid;
+    grid-column-start: 1;
+    grid-column-end: 16;
     grid-template-rows: repeat(3, 1fr);
     grid-template-columns: repeat(20, 1fr);
     
@@ -36,18 +36,21 @@ body{
     position: absolute;
     margin-left: auto;
     margin-right: auto;
-    top:50;
+    top:30;
     text-align: center;
+    z-index: 100;
 }
 
 #tutorialPanel img{
     margin-left: auto;
     margin-right: auto;
+    z-index: 100;
 }
 
 .header img:last-child{
     width: 50%;
-    height: 50%;
+    height: 60%;
+    grid-row-start: 2;
 }
 
 .header img:hover{
@@ -111,7 +114,7 @@ a{
 .instructions{
     
     background-color: #6a2ee8;
-    color: white;
+    color: black;
     font-weight: 300;
     font-size: 20px;
     border-radius: 20px;
@@ -123,13 +126,17 @@ a{
     margin-left: 20px;
 
     display: grid;
-    grid-template-rows: 30px repeat(6, 1fr);
+    grid-template-rows: 35px repeat(6, 1fr);
     grid-template-columns: repeat(1, 1fr);
     gap: 5px;
     
 }
 .instruc-container{
+    max-width: 90%;
+    font-size: 16px;
+    height: 100px;
     border: black solid 1px;
+    margin: 10px auto;
 }
 
 
@@ -205,7 +212,7 @@ a{
     border-radius: 70px;
     background: linear-gradient(180deg, rgb(238, 154, 229) 0%, rgb(106, 46, 232) 100%);
     grid-column-start: 1;
-    grid-column-end: 9;
+    grid-column-end: 4;
 }
 
 
@@ -337,6 +344,7 @@ a{
     grid-column-end: 13 ;
     font-size: 20px;
     padding: 10px;
+    overflow:scroll;
 
 }
 
@@ -346,3 +354,41 @@ a{
     font-size: 20px;
     padding: 10px;
 }
+
+#timer, #score{
+    display: table;
+    margin: 0 auto;
+}
+
+.startPanel{
+    width: 500px;
+    height: 200px;
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    top: 40%;
+    left: 0;
+    right: 0;
+    text-align: center;
+    background-color: #6a2ee8;
+    border: 1px solid white;
+    border-radius: 20px;
+    z-index: 100;
+    color: white;
+}
+
+#startButton{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    border: 1px solid white;
+    background-color: green;
+    color: white;
+    font-size: 20px;
+    padding: 10px;
+}
+
+#startButton:hover{
+    cursor: pointer;
+    opacity: 90%;
+}   
