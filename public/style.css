@@ -392,3 +392,37 @@ a{
     cursor: pointer;
     opacity: 90%;
 }   
+
+.endPanel{
+    width: 500px;
+    height: 200px;
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    top: 40%;
+    left: 0;
+    right: 0;
+    text-align: center;
+    background-color: #6a2ee8;
+    border: 1px solid white;
+    border-radius: 20px;
+    z-index: 100;
+    color: white;
+    display: none;
+}
+
+#resetButton{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    border: 1px solid white;
+    background-color: green;
+    color: white;
+    font-size: 20px;
+    padding: 10px;
+}
+
+#resetButton:hover{
+    cursor: pointer;
+    opacity: 90%;
+}  

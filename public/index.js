@@ -189,7 +189,7 @@ function checkCodeByWord() {
     });
 }
 
-let globalScore;
+let globalScore = 0;
 
 
 function updateScore() {
@@ -199,14 +199,13 @@ function updateScore() {
     checkmarks.forEach(checkmark => {
         if (checkmark.done) {
             score++;
-
         }
     });
 
     scorePercentage = Math.floor((score / checkmarks.length) * 100);
 
     globalScore = scorePercentage;
-    document.getElementById("score").innerHTML = scorePercentage + "%";
+    document.getElementById("score").innerHTML = score;
 
 
     var value = Math.floor((progressIncrement * score) + 4);
@@ -333,6 +332,7 @@ function startIntervalTimer() {
                 clearInterval(timer1);
                 clearInterval(timer2);
                 document.getElementById("timer").innerHTML = "Done";
+                showResetPanel();
             }
         }, 1000);
 
@@ -353,6 +353,7 @@ function startIntervalTimer() {
             clearInterval(timer1);
             clearInterval(timer2);
             document.getElementById("timer").innerHTML = "Done";
+            showResetPanel();
         }
     }, 11000);
 
@@ -377,4 +378,16 @@ function startGame(){
     document.querySelector(".container").style.pointerEvents = "auto";
     document.querySelector(".container").style.filter = "blur(0px)";
     startIntervalTimer();
+}
+
+
+function showResetPanel(){
+    var endPanel = document.getElementById("endPanel");
+    var score2 = document.getElementById("score2");
+    endPanel.style.display = "block";
+    score2.textContent = globalScore + "%";
+}
+
+function reset(){
+    window.location.reload();
 }

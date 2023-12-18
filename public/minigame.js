@@ -92,11 +92,13 @@ function checkCollisions(projectiles, target) {
         document.body.style.backgroundColor = "#ff0000";
         setTimeout(function () { document.body.style.transition = "0.5s"; document.body.style.backgroundColor = "white"; }, 1000);
         document.body.style.transition = "";
+        checkGameState();
       }else if(target === monster){
         document.body.style.transition = "0.5s";
         document.body.style.backgroundColor = "#AAFF00";
         setTimeout(function () { document.body.style.transition = "0.5s"; document.body.style.backgroundColor = "white"; }, 1000);
         document.body.style.transition = "";
+        checkGameState();
       }
       // Remove the projectile
       projectiles.splice(index, 1);
@@ -115,13 +117,14 @@ function checkGameState() {
     h1.innerHTML = "You Win!";
     minigameCanvas.appendChild(h1);
     gameEnded = true;
-
+    showResetPanel();
   } else if (player.health <= 0) {
     canvas.style.display = "none";
     var h1 = document.createElement("h1");
     h1.innerHTML = "You LOSE!";
     minigameCanvas.appendChild(h1);
     gameEnded = true;
+    showResetPanel();
   }
 }
 
@@ -171,7 +174,8 @@ function update() {
 
       // Check for collisions between projectiles and targets
       checkCollisions(player.projectiles, monster);
-      checkCollisions(monster.projectiles, player)
+      checkCollisions(monster.projectiles, player);
+
 
   // Request next frame
   requestAnimationFrame(update);
